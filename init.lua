@@ -1,4 +1,4 @@
-local existingModules = {"client"}
+local existingModules = {"client", "fs"}
 
 return {
     new = function(m)
