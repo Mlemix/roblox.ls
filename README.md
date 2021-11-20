@@ -1,5 +1,6 @@
-# roblos
+# Roblox.ls
 A lua roblox exploiting library that looks like nodejs 💀
+the name is just a combination between js and lua 💀💀💀
 
 ## client module
 ```
