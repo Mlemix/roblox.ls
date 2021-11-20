@@ -27,6 +27,16 @@ collection.pathExists = function(f, callback)
         if callback then callback(nil, is) end; return is
     end
 end
+
+collection.readFile = function(f, callback)
+    if not collection.pathExists(f) then if callback then callback("File does not exist.", nil) end; return nil end
+    local ran, err = pcall(function()
+        return readfile(f)
+    end)
+    if not err or string.len(err) < 1 then return callback("Failed to read file.", nil) end
+    if ran then callback(nil, err); return err end
+end
+
 collection.makeFile = function(f, callback)
     local pathParsed = parseFileName(f)
     local pathCompleted = ""
@@ -37,6 +47,7 @@ collection.makeFile = function(f, callback)
     end
     if callback then callback(nil, true) end; return true
 end
+
 collection.writeFile = function(f, c, callback)
     if not collection.pathExists(f) then collection.makeFile(f) end
     writefile(f, c)
