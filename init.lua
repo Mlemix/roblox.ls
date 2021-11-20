@@ -1,6 +1,6 @@
 local existingModules = {"client", "fs"}
 
-if _G.roblox_ls then return print("roblos already loaded!"); _G.roblox_ls.main end
+if _G.roblox_ls then print("roblos already loaded!"); return _G.roblox_ls.main end
 _G.roblox_ls = {
 	moduleCache = {},
 	main = {
