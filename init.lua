@@ -1,12 +1,19 @@
 local existingModules = {"client", "fs"}
 
-if _G.roblox_ls then print("already loaded!") return _G.roblox_ls end
+if _G.roblox_ls then return print("roblos already loaded!"); _G.roblox_ls.main end
 _G.roblox_ls = {
-	new = function(m)
-		for _, v in pairs(existingModules) do
-			if v == m then return loadstring(game:HttpGet("https://raw.githubusercontent.com/Mlemix/roblos/main/modules/".. m ..".lua")) end
+	moduleCache = {},
+	main = {
+		new = function(m)
+			if _G.roblox_ls.moduleCache[m] then print("module already cached!"); return _G.roblox_ls.moduleCache[m] end
+			for _, v in pairs(existingModules) do
+				if v == m then
+					_G.roblox_ls.moduleCache[m] = loadstring(game:HttpGet("https://raw.githubusercontent.com/Mlemix/roblos/main/modules/".. m ..".lua"))
+					return _G.roblox_ls.moduleCache[m]
+				end
+			end
+			return nil 
 		end
-		return nil 
-	end
+	}
 }
-return _G.roblox_ls
+return _G.roblox_ls.main
