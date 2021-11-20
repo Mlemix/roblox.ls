@@ -33,8 +33,13 @@ collection.readFile = function(f, callback)
     local ran, err = pcall(function()
         return readfile(f)
     end)
-    if not err or string.len(err) < 1 then return callback("Failed to read file.", nil) end
-    if ran then callback(nil, err); return err end
+    if not err or string.len(err) < 1 then 
+        if callback then return callback("Failed to read file.", nil) else return end
+    end
+    if ran then 
+        if callback then callback(nil, err) end;
+        return err
+    end
 end
 
 collection.makeFile = function(f, callback)
