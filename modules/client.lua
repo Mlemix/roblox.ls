@@ -3,9 +3,12 @@ local collection = {}
 local plrs = game:GetService("Players")
 local lp = plrs.LocalPlayer
 
-collection.use = function(thing)
+collection.use = function(thing, args)
 	local type = typeof(thing)
 	if type == "function" then
+		if args then
+			return coroutine.wrap(thing)(args)
+		end
 		coroutine.wrap(thing)()
 	end
 end
