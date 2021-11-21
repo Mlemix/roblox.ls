@@ -8,7 +8,7 @@ _G.roblox_ls = {
 			if _G.roblox_ls.moduleCache[m] then return _G.roblox_ls.moduleCache[m] end
 			for _, v in pairs(existingModules) do
 				if v == m then
-					_G.roblox_ls.moduleCache[m] = loadstring(game:HttpGet("https://raw.githubusercontent.com/Mlemix/roblox.ls/main/modules/".. m ..".lua"))
+					_G.roblox_ls.moduleCache[m] = loadstring(game:HttpGet("https://raw.githubusercontent.com/Mlemix/roblox.ls/main/modules/".. m ..".lua"))()
 					return _G.roblox_ls.moduleCache[m]
 				end
 			end
