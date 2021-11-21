@@ -10,6 +10,7 @@ local callbacks = {
 
 local function listenToPlayerEvents(plr)
     plr.CharacterAdded:Connect(function(c)
+		c:WaitForChild("HumanoidRootPart")
         for _, v in pairs(callbacks.CharacterAdded) do
             v(c)
         end
