@@ -5,7 +5,7 @@ the name is just a combination between js and lua 💀💀💀
 ## client module
 ```
 local roblox_ls = loadstring(game:HttpGet("https://raw.githubusercontent.com/Mlemix/roblox.ls/main/init.lua"))()
-local client = roblox_ls.new("client")()
+local client = roblox_ls.new("client")
 
 client.on("respawn", function(c)
     print(c, "just respawned")
@@ -19,7 +19,7 @@ end)
 ## fs module
 ```
 local roblox_ls = loadstring(game:HttpGet("https://raw.githubusercontent.com/Mlemix/roblox.ls/main/init.lua"))()
-local fs = roblox_ls.new("fs")()
+local fs = roblox_ls.new("fs")
 
 local written = fs.writeFile("bruh/ok/nah.txt", "file written", function(err, thing)
     if err then return print("failed to save or something") end
