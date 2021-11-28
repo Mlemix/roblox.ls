@@ -1,4 +1,4 @@
-local existingModules = {"client", "fs", "cache"}
+local existingModules = {"client", "fs", "cache", "events"}
 
 if _G.roblox_ls then return _G.roblox_ls.main end
 _G.roblox_ls = {
