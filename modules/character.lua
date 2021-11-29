@@ -7,7 +7,7 @@ local collection = {
 }
 
 collection.tweenTP = function(to, t, back, callback)
-        local sb = collection.noClip
+        if collection.noClip then sbnc = true end
         local hrp = lp.Character.HumanoidRootPart
         local op = CFrame.new(hrp.Position)
         
@@ -17,7 +17,7 @@ collection.tweenTP = function(to, t, back, callback)
         wait(t + 0.1)
         if callback then callback() end
         if back then game:GetService("TweenService"):Create(hrp, TweenInfo.new(t, Enum.EasingStyle.Linear), {CFrame = op}):Play() end
-        collection.noClip = sb
+        if not sbnc then collection.noClip = false end
     end
 
 rs.Stepped:Connect(function()
