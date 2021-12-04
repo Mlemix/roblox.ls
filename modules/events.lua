@@ -22,7 +22,7 @@ NC = hookfunction(getrawmetatable(game).__namecall, function(...)
                 caller = getfenv(2).script,
                 name = Args[1],
                 args = Args[2]
-            }, Args)
+            }, ...)
         end
         return
     elseif method == "FireServer" then
@@ -31,7 +31,7 @@ NC = hookfunction(getrawmetatable(game).__namecall, function(...)
                 caller = getfenv(2).script,
                 name = Args[1],
                 args = Args[2]
-            }, Args)
+            }, ...)
         end
         return
     end
