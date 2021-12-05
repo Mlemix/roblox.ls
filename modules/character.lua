@@ -30,7 +30,10 @@ collection.findCharacterInFOV = function(fov, wallcheck, customCam, othercheck)
     for _, v in pairs(plrs:GetPlayers()) do
         if v ~= lp and v.Character and v.Character:FindFirstChild("Head") and (othercheck and othercheck(v) or true) then
 	    if not customCam:IsA("Camera") then return nil end
-            local pos, visible = customCam:WorldToScreenPoint(v.Character:FindFirstChild("Head").Position)
+            local fail, pos, visible = pcall(function()
+                return customCam:WorldToScreenPoint(v.Character:FindFirstChild("Head").Position)
+            end)
+            if not fail then return nil end
             if (visible and not wallcheck or visible) then
 		if not lp:IsA("Player") then return nil end
                 local mouse = lp:GetMouse()
