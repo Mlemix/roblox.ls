@@ -29,7 +29,7 @@ collection.findCharacterInFOV = function(fov, wallcheck, customCam, othercheck)
     plr = nil
     for _, v in pairs(plrs:GetPlayers()) do
         if v ~= lp and v.Character and v.Character:FindFirstChild("Head") and (othercheck and othercheck(v) or true) then
-	    if not customCam:IsA("Camera") then return nil end
+	    if not customCam or not customCam:IsA("Camera") then return nil end
             local fail, pos, visible = pcall(function()
                 return customCam:WorldToScreenPoint(v.Character:FindFirstChild("Head").Position)
             end)
