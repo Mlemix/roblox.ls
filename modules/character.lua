@@ -2,7 +2,6 @@ local rs = game:GetService('RunService')
 local ts = game:GetService("TweenService")
 local plrs = game:GetService("Players")
 local lp = plrs.LocalPlayer
-local cam = workspace.CurrentCamera
 
 local collection = {
     noClip = false,
@@ -26,12 +25,12 @@ collection.tweenTP = function(to, t, back, callback, callbackonback)
 	if callbackonback then callbackonback() end
 end
 
-collection.findCharacterInFOV = function(fov, wallcheck, othercheck)
+collection.findCharacterInFOV = function(fov, wallcheck, customCam, othercheck)
     plr = nil
     for _, v in pairs(plrs:GetPlayers()) do
         if v ~= lp and v.Character and v.Character:FindFirstChild("Head") and (othercheck and othercheck(v) or true) then
-	    if not cam:IsA("Camera") then return nil end
-            local pos, visible = cam:WorldToScreenPoint(v.Character:FindFirstChild("Head").Position)
+	    if not customCam:IsA("Camera") then return nil end
+            local pos, visible = customCam:WorldToScreenPoint(v.Character:FindFirstChild("Head").Position)
             if (visible and not wallcheck or visible) then
 		if not lp:IsA("Player") then return nil end
                 local mouse = lp:GetMouse()
