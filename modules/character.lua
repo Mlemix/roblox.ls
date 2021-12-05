@@ -31,6 +31,7 @@ collection.findCharacterInFOV = function(fov, wallcheck, othercheck)
         if v ~= lp and v.Character and v.Character:FindFirstChild("Head") and (othercheck and othercheck(v) or true) then
             local pos, visible = workspace.CurrentCamera:WorldToScreenPoint(v.Character:FindFirstChild("Head").Position)
             if (visible and not wallcheck or visible) then
+				if not lp:IsA("Player") then return nil end
                 local mouse = lp:GetMouse()
                 mag = (Vector2.new(pos.X, pos.Y) - Vector2.new(mouse.X, mouse.Y)).magnitude
                 if mag <= fov then
