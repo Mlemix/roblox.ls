@@ -13,29 +13,28 @@ collection.on = function(t, c)
     end
 end
 
-NC = hookfunction(getrawmetatable(game).__namecall, function(...)
+NC = hookfunction(getrawmetatable(game).__namecall, function(self, ...)
     local method = getnamecallmethod()
     local Args = {...}
     if method == "InvokeServer" then
         for _, v in pairs(callbacks.InvokeServer) do
-            v(NC, {
+            if v(NC, {
                 caller = getfenv(2).script,
-                name = Args[1],
-                args = Args[2]
-            }, ...)
+                name = self.name,
+                args = Args[1]
+            }, self) == "pass" then return NC(self, ...)  end
         end
-        return
     elseif method == "FireServer" then
         for _, v in pairs(callbacks.FireServer) do
-            v(NC, {
+            if v(NC, {
                 caller = getfenv(2).script,
-                name = Args[1],
-                args = Args[2]
-            }, ...)
+                name = self.name,
+                args = Args[1]
+            }, self) == "pass" then return NC(self, ...)  end
         end
-        return
     end
-    return NC(...)
+    
+    return NC(self, ...)
 end)
 
 return collection
