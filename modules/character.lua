@@ -2,7 +2,7 @@ local rs = game:GetService('RunService')
 local ts = game:GetService("TweenService")
 local plrs = game:GetService("Players")
 local lp = plrs.LocalPlayer
-local cam = workspace:WaitForChild("CurrentCamera")
+local cam = workspace.CurrentCamera
 
 local collection = {
     noClip = false,
