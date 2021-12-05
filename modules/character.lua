@@ -26,12 +26,12 @@ collection.tweenTP = function(to, t, back, callback, callbackonback)
 	if callbackonback then callbackonback() end
 end
 
-collection.findCharacterInFOV = function(fov, othercheck)
+collection.findCharacterInFOV = function(fov, wallcheck, othercheck)
     plr = nil
     for _, v in pairs(plrs:GetPlayers()) do
         if v ~= lp and v.Character and v.Character:FindFirstChild("Head") and (othercheck and othercheck(v) or true) then
             local pos, visible = cam:WorldToScreenPoint(v.Character:FindFirstChild("Head").Position)
-            if visible then
+            if (visible and not wallcheck or visible) then
                 local mouse = lp:GetMouse()
                 mag = (Vector2.new(pos.X, pos.Y) - Vector2.new(mouse.X, mouse.Y)).magnitude
                 if mag <= fov then
