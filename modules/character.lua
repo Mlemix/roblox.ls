@@ -2,6 +2,7 @@ local rs = game:GetService('RunService')
 local ts = game:GetService("TweenService")
 local plrs = game:GetService("Players")
 local lp = plrs.LocalPlayer
+local cam = workspace.CurrentCamera
 
 local collection = {
     noClip = false,
@@ -29,9 +30,10 @@ collection.findCharacterInFOV = function(fov, wallcheck, othercheck)
     plr = nil
     for _, v in pairs(plrs:GetPlayers()) do
         if v ~= lp and v.Character and v.Character:FindFirstChild("Head") and (othercheck and othercheck(v) or true) then
-            local pos, visible = workspace.CurrentCamera:WorldToScreenPoint(v.Character:FindFirstChild("Head").Position)
+	    if not cam:IsA("Camera") then return nil end
+            local pos, visible = cam:WorldToScreenPoint(v.Character:FindFirstChild("Head").Position)
             if (visible and not wallcheck or visible) then
-				if not lp:IsA("Player") then return nil end
+		if not lp:IsA("Player") then return nil end
                 local mouse = lp:GetMouse()
                 mag = (Vector2.new(pos.X, pos.Y) - Vector2.new(mouse.X, mouse.Y)).magnitude
                 if mag <= fov then
