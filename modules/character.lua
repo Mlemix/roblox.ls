@@ -33,7 +33,6 @@ collection.findCharacterInFOV = function(fov, wallcheck, othercheck)
     for _, v in pairs(plrs:GetPlayers()) do
         if v.Character and v.Character:FindFirstChild("Head") and v ~= lp and (othercheck and othercheck(v) or true) then
             local pos, vis = cam:WorldToViewportPoint(v.Character:FindFirstChild("Head").Position)
-            print("visible", vis)
             if (vis and not wallcheck or vis) then
                 local magnitude = (Vector2.new(pos.X, pos.Y) - Vector2.new(mouse.X, mouse.Y)).magnitude
                 if magnitude < sdis and magnitude <= fov then
