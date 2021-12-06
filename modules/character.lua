@@ -2,6 +2,8 @@ local rs = game:GetService('RunService')
 local ts = game:GetService("TweenService")
 local plrs = game:GetService("Players")
 local lp = plrs.LocalPlayer
+local mouse = lp:GetMouse()
+local cam = workspace.CurrentCamera
 
 local collection = {
     noClip = false,
@@ -25,25 +27,22 @@ collection.tweenTP = function(to, t, back, callback, callbackonback)
 	if callbackonback then callbackonback() end
 end
 
-collection.findCharacterInFOV = function(fov, wallcheck, customCam, othercheck)
-    plr = nil
+collection.findCharacterInFOV = function(fov, wallcheck, othercheck) 
+    local plr = nil
+    local sdis = math.huge
     for _, v in pairs(plrs:GetPlayers()) do
-        if v ~= lp and v.Character and v.Character:FindFirstChild("Head") and (othercheck and othercheck(v) or true) then
-	    if not customCam or not customCam:IsA("Camera") then return nil end
-            local fail, pos, visible = pcall(function()
-                return customCam:WorldToScreenPoint(v.Character:FindFirstChild("Head").Position)
-            end)
-            if not fail then return nil end
-            if (visible and not wallcheck or visible) then
-		if not lp:IsA("Player") then return nil end
-                local mouse = lp:GetMouse()
-                mag = (Vector2.new(pos.X, pos.Y) - Vector2.new(mouse.X, mouse.Y)).magnitude
-                if mag <= fov then
+        if v.Character and v.Character:FindFirstChild("Head") and v ~= lp and (othercheck and othercheck(v) or true) then
+            local pos, vis = cam:WorldToViewportPoint(v.Character:FindFirstChild("Head").Position)
+            print("visible", vis)
+            if (vis and not wallcheck or vis) then
+                local magnitude = (Vector2.new(pos.X, pos.Y) - Vector2.new(mouse.X, mouse.Y)).magnitude
+                if magnitude < sdis and magnitude <= fov then
                     plr = v
+                    sdis = magnitude
                 end
             end
         end
-    end
+    end  
     return plr
 end
 
