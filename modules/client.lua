@@ -17,11 +17,11 @@ local function listenToPlayerEvents(plr)
     if plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then collection.Characters[plr.Name] = plr.Character end
     local cac = plr.CharacterAdded:Connect(function(c)
 		c:WaitForChild("HumanoidRootPart")
-		collection.Characters[plr.Name] = c
+		collection.Characters[plr] = c
         for _, v in pairs(callbacks.CharacterAdded) do v(c) end
     end)
 	local crc = plr.CharacterRemoving:Connect(function()
-		collection.Characters[plr.Name] = nil
+		collection.Characters[plr] = nil
 		for _, v in pairs(callbacks.CharacterRemoving) do v(c) end
 	end)
 	
@@ -56,7 +56,7 @@ end)
 plrs.PlayerRemoving:Connect(function(plr)
 	for _, v in pairs(callbacks.PlayerRemoving) do v(plr) end
 	for _, v in pairs(connections[plr.Name]) do v:Disconnect() end
-	collection.Characters[plr.Name] = nil
+	collection.Characters[plr] = nil
 end)
 
 return collection
