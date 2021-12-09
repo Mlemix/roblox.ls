@@ -14,7 +14,7 @@ local callbacks = {
 local connections = {}
 
 local function listenToPlayerEvents(plr)
-    if plr.Character:FindFirstChild("HumanoidRootPart") then collection.Characters[plr.Name] = plr.Character end
+    if plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then collection.Characters[plr.Name] = plr.Character end
     local cac = plr.CharacterAdded:Connect(function(c)
 		c:WaitForChild("HumanoidRootPart")
 		collection.Characters[plr.Name] = c
