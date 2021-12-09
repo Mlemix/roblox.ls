@@ -5,25 +5,28 @@ local lp = plrs.LocalPlayer
 
 local callbacks = {
     CharacterAdded = {},
-	PlayerRemoving = {}
+	PlayerRemoving = {},
+	CharacterRemoving = {}
 }
 
+local connections = {}
+
 local function listenToPlayerEvents(plr)
-    plr.CharacterAdded:Connect(function(c)
+    local cac = plr.CharacterAdded:Connect(function(c)
 		c:WaitForChild("HumanoidRootPart")
-        for _, v in pairs(callbacks.CharacterAdded) do
-            v(c)
-        end
+        for _, v in pairs(callbacks.CharacterAdded) do v(c) end
     end)
+	local crc = plr.CharacterRemoving:Connect(function()
+		for _, v in pairs(callbacks.CharacterRemoving) do v(c) end
+	end)
+	
+	connections[plr.Name] = {cac, crc}
 end
 
 collection.use = function(thing, args)
 	local type = typeof(thing)
 	if type == "function" then
-		if args then
-			return coroutine.wrap(thing)(args)
-		end
-		coroutine.wrap(thing)()
+		return coroutine.wrap(thing)(args or {})
 	end
 end
 
@@ -34,6 +37,8 @@ collection.on = function(t, callback)
 		table.insert(callbacks.CharacterAdded, callback)
 	elseif t == "leave" then
 		table.insert(callbacks.PlayerRemoving, callback)
+	elseif t == "die" then
+		table.insert(callbacks.CharacterRemoving, callback)
 	end
 end
 
@@ -44,9 +49,8 @@ plrs.PlayerAdded:Connect(function(plr)
 	listenToPlayerEvents(plr)
 end)
 plrs.PlayerRemoving:Connect(function(plr)
-	for _, v in pairs(callbacks.PlayerRemoving) do
-		v(plr)
-	end
+	for _, v in pairs(callbacks.PlayerRemoving) do v(plr) end
+	for _, v in pairs(connections[plr.Name]) do v:Disconnect() end
 end)
 
 return collection
